@@ -7,12 +7,18 @@ import actions.Command
 import actions.WriteCommand
 import actions.MoveCommand
 import actions.SelectCommand
+import actions.EraseCommand
+import actions.CopyCommand
+import actions.PasteCommand
 
 class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private var buffer : Buffer = theBuffer
-  private val writeCommand : WriteCommand = new WriteCommand(buffer, this);
-  private val moveCommand : MoveCommand = new MoveCommand(buffer, this);
-  private val selectCommand : SelectCommand = new SelectCommand(buffer, this);
+  private val writeCommand : WriteCommand = new WriteCommand(buffer, this)
+  private val moveCommand : MoveCommand = new MoveCommand(buffer, this)
+  private val selectCommand : SelectCommand = new SelectCommand(buffer, this)
+  private val eraseCommand : EraseCommand = new EraseCommand(buffer)
+  private val copyCommand : CopyCommand = new CopyCommand(buffer)
+  private val pasteCommand : PasteCommand = new PasteCommand(buffer)
   private var lastChar : Char = ' '
   private var lastMove : Int = 0
     
@@ -29,9 +35,31 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   }
   
   override def keyPressed(e : KeyEvent) {
+    // Close the application with Escape
+    if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+      System.exit(0)
+    // Process non directional keys
     if(!isDirectionalKey(e)) {
+      // Erase content with Backspace
+      if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+        executeCommand(eraseCommand)
+      else // Process the key's character if there is one
+        if(e.getKeyChar() != KeyEvent.CHAR_UNDEFINED) {
+          // Write the character if Control is not pressed
+          if(!e.isControlDown()) {
+            lastChar = e.getKeyChar()
+            executeCommand(writeCommand)
+          } else { // Execute the corresponding command if Control is pressed
+            // Copy the selection with Control+C
+            if(e.getKeyCode() == KeyEvent.VK_C)
+              executeCommand(copyCommand)
+            // Paste the clipboard's text with Control+V
+            if(e.getKeyCode() == KeyEvent.VK_V)
+              executeCommand(pasteCommand)
+          }
+        }
       e.consume()
-    } else {
+    } else { // Process directional keys
       lastMove = e.getKeyCode()
       if(e.isShiftDown())
         executeCommand(selectCommand)
@@ -40,18 +68,18 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
     }
   }
   
-  override def keyReleased(e : KeyEvent) {
-    if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-      System.exit(0)
-    
+  override def keyReleased(e : KeyEvent) {    
     e.consume()
   }
   
   override def keyTyped(e : KeyEvent) {
-    if(!e.isControlDown()) {
-      lastChar = e.getKeyChar()
-      executeCommand(writeCommand)
-    }
+    /*if(!e.isControlDown()) {
+      if(toWrite) {
+        lastChar = e.getKeyChar()
+        executeCommand(writeCommand)
+        toWrite = false
+      }
+    }*/
     e.consume()
   }
   

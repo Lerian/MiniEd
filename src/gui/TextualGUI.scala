@@ -7,7 +7,11 @@ class TextualGUI extends GUI {
     
   }
   
-  override def refreshDisplay {
+  override def refreshTextDisplay {
+    
+  }
+  
+  override def refreshCaretDisplay {
     
   }
 }

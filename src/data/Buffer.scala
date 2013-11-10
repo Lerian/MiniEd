@@ -22,74 +22,105 @@ class Buffer(listGUIs : List[GUI]) {
 	
 	// Refresh every GUI
 	def refreshGuis() {
-	  for (x <- 0 to GUIs.size()-1)
-	    GUIs.get(x).refreshDisplay
+	  for (x <- 0 to GUIs.size()-1) {
+	    GUIs.get(x).refreshTextDisplay
+	    GUIs.get(x).refreshCaretDisplay
+	  }
 	}
 	
-	//
+	// Refresh every GUI's caret
+	def refreshCarets() {
+	  for (x <- 0 to GUIs.size()-1)
+	    GUIs.get(x).refreshCaretDisplay
+	}
+	
+	
 	def getText = text
 	def getCommandManager = commandManager
 	def getCursorPosition = cursorPosition
 	
-	//
 	def setText(newText : String) {
 	  text = newText
 	}
+	def setCursorPosition(newPos : Int) {
+	  cursorPosition = newPos
+	}
+	
 	// Move the cursor in the given direction
 	def move(move : Int) {
 	  if (selectionBeginning != selectionEnd) {
-	    //TODO la sélection
-	  } else {
+	    move match {//TODO les flèches haut/bas
+		    case KeyEvent.VK_RIGHT => //if(selectionEnd+1 < text.size)
+		    							cursorPosition = selectionEnd//+1
+		    case KeyEvent.VK_LEFT => //if(selectionBeginning-1 >= 0)
+		    							cursorPosition = selectionBeginning//-1
+		    case KeyEvent.VK_UP =>{}
+		    case KeyEvent.VK_DOWN => {}
+		  }
+		  selectionBeginning = cursorPosition
+	      selectionEnd = cursorPosition
+	  } else {//TODO faire que ça marche
 		  move match {//TODO les flèches haut/bas
 		    case KeyEvent.VK_RIGHT => if(cursorPosition < text.size)
-		    							cursorPosition = cursorPosition + 1
+		    							setCursorPosition(cursorPosition + 1)
+		    							
 		    case KeyEvent.VK_LEFT => if(cursorPosition > 0)
-		    							cursorPosition = cursorPosition - 1
+		    							setCursorPosition(cursorPosition - 1)
 		    case KeyEvent.VK_UP =>{}
 		    case KeyEvent.VK_DOWN => {}
 		  }
 		  selectionBeginning = cursorPosition
 	      selectionEnd = cursorPosition
 	  }
+	  refreshCarets()
 	}
 	
 	// Erase every character in the selection (the one before the cursor if there is no selection)
 	def erase() {
+	  var beginning : String = ""
+	  var ending : String = ""
+	  // Work on the text
 	  if (selectionBeginning != selectionEnd) {
-	    // Work on the text
-	    var beginning : String = text.substring(0, selectionBeginning+1)
-		var ending : String = text.substring(selectionEnd+1, text.length())
-		text = beginning.concat(ending)
-		// Update the cursor's position and the selection
-		cursorPosition = selectionBeginning
-		selectionBeginning = cursorPosition
-		selectionEnd = cursorPosition
+	    if (selectionBeginning != 0)
+	    	beginning = text.substring(0, selectionBeginning)
+	    if (selectionEnd != text.size)
+	    	ending = text.substring(selectionEnd, text.length())
+	    // Update the cursor's position and the selection
+	    cursorPosition = selectionBeginning
+	    selectionBeginning = cursorPosition
+	    selectionEnd = cursorPosition
 	  } else {
-	    // Work on the text
-		var beginning : String = text.substring(0, cursorPosition)
-		var ending : String = text.substring(cursorPosition+1, text.length())
-		text = beginning.concat(ending)
-		// Update the cursor's position and the selection
-		cursorPosition = cursorPosition - 1
+	    if (cursorPosition != 0)
+	    	beginning = text.substring(0, cursorPosition-1)
+	    if (cursorPosition != text.size)
+			ending = text.substring(cursorPosition, text.length())
+	    // Update the cursor's position and the selection
+	    if(cursorPosition-1 >= 0)
+	      cursorPosition = cursorPosition -1
+	    selectionBeginning = cursorPosition
+	    selectionEnd = cursorPosition
 	  }
+	  text = beginning.concat(ending)
+	  refreshGuis()
 	}
 	
 	// Copy the clipboard's content at the selection's position (at the cursor's if there is no selection)
 	def paste() {
 	  // Work on the text
 	  if (selectionBeginning != selectionEnd) {
-	    var beginning : String = text.substring(0, selectionBeginning+1)
-		var ending : String = text.substring(selectionEnd+1, text.length())
+	    var beginning : String = text.substring(0, selectionBeginning)
+		var ending : String = text.substring(selectionEnd, text.length())
 		text = beginning.concat(clipboard.getText).concat(ending)
 	  } else {
-		var beginning : String = text.substring(0, cursorPosition+1)
-		var ending : String = text.substring(cursorPosition+1, text.length())
+		var beginning : String = text.substring(0, cursorPosition)
+		var ending : String = text.substring(cursorPosition, text.length())
 		text = beginning.concat(clipboard.getText).concat(ending)
 	  }
 	  // Update the cursor's position and the selection
 	  cursorPosition = selectionBeginning + clipboard.getText.length()
 	  selectionBeginning = cursorPosition
 	  selectionEnd = cursorPosition
+	  refreshGuis()
 	}
 	
 	// If there is a selection, copy it's content to the clipboard, then erase it
@@ -143,12 +174,13 @@ class Buffer(listGUIs : List[GUI]) {
 		    case KeyEvent.VK_DOWN => {}
 		  }
 	  }
+	  refreshCarets()
 	}
 	
 	// If there is a selection, copy it's content to the clipboard
 	def copy() {
 	  if (selectionBeginning != selectionEnd) {
-		var newClipText : String = text.substring(selectionBeginning, selectionEnd+1)
+		var newClipText : String = text.substring(selectionBeginning, selectionEnd)
 		clipboard.setText(newClipText)
 	  }
 	}

@@ -11,5 +11,6 @@ trait GUI {
 	}
 	
 	def init(newBuffer : Buffer)
-	def refreshDisplay
+	def refreshTextDisplay
+	def refreshCaretDisplay
 }

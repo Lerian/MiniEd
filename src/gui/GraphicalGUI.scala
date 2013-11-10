@@ -24,10 +24,13 @@ class GraphicalGUI extends GUI {
     // initialisation du keyListener
     textArea.addKeyListener(getBuffer.getCommandManager)
   }
-  override def refreshDisplay {
+  
+  override def refreshTextDisplay {
     textArea.setText(getBuffer.getText)
     frame.repaint()
-    textArea.setCaretPosition(getBuffer.getCursorPosition)
   }
 
+  override def refreshCaretDisplay {
+    textArea.setCaretPosition(getBuffer.getCursorPosition)
+  }
 }
