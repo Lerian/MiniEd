@@ -32,8 +32,7 @@ class Buffer(listGUIs : List[GUI]) {
 	def refreshCarets() {
 	  for (x <- 0 to GUIs.size()-1)
 	    GUIs.get(x).refreshCaretDisplay
-	}
-	
+	}	
 	
 	def getText = text
 	def getCommandManager = commandManager
@@ -62,15 +61,17 @@ class Buffer(listGUIs : List[GUI]) {
 	  } else {//TODO faire que ça marche
 		  move match {//TODO les flèches haut/bas
 		    case KeyEvent.VK_RIGHT => if(cursorPosition < text.size)
-		    							setCursorPosition(cursorPosition + 1)
-		    							
+		    							//setCursorPosition(cursorPosition + 1)
+		    							cursorPosition = cursorPosition+1
 		    case KeyEvent.VK_LEFT => if(cursorPosition > 0)
-		    							setCursorPosition(cursorPosition - 1)
+		    							//setCursorPosition(cursorPosition - 1)
+		    							cursorPosition = cursorPosition-1
 		    case KeyEvent.VK_UP =>{}
 		    case KeyEvent.VK_DOWN => {}
 		  }
 		  selectionBeginning = cursorPosition
 	      selectionEnd = cursorPosition
+	      System.err.println(cursorPosition)
 	  }
 	  refreshCarets()
 	}
@@ -138,7 +139,7 @@ class Buffer(listGUIs : List[GUI]) {
 		    case KeyEvent.VK_RIGHT =>
 		      if(cursorPosition < text.size) {
 		        cursorPosition = cursorPosition + 1
-		        if(cursorPosition < selectionEnd) {
+		        if(cursorPosition <= selectionEnd) {
 		          selectionBeginning = cursorPosition
 		        }
 		        if(cursorPosition > selectionEnd) {
@@ -151,7 +152,7 @@ class Buffer(listGUIs : List[GUI]) {
 		        if(cursorPosition < selectionBeginning) {
 		          selectionBeginning = cursorPosition
 		        }
-		        if(cursorPosition > selectionBeginning) {
+		        if(cursorPosition >= selectionBeginning) {
 		          selectionEnd = cursorPosition
 		        }
 		      }
@@ -174,7 +175,6 @@ class Buffer(listGUIs : List[GUI]) {
 		    case KeyEvent.VK_DOWN => {}
 		  }
 	  }
-	  refreshCarets()
 	}
 	
 	// If there is a selection, copy it's content to the clipboard

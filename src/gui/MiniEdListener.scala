@@ -10,6 +10,7 @@ import actions.SelectCommand
 import actions.EraseCommand
 import actions.CopyCommand
 import actions.PasteCommand
+import actions.CutCommand
 
 class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private var buffer : Buffer = theBuffer
@@ -19,6 +20,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private val eraseCommand : EraseCommand = new EraseCommand(buffer)
   private val copyCommand : CopyCommand = new CopyCommand(buffer)
   private val pasteCommand : PasteCommand = new PasteCommand(buffer)
+  private val cutCommand : CutCommand = new CutCommand(buffer)
   private var lastChar : Char = ' '
   private var lastMove : Int = 0
     
@@ -56,6 +58,9 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
             // Paste the clipboard's text with Control+V
             if(e.getKeyCode() == KeyEvent.VK_V)
               executeCommand(pasteCommand)
+            // Cut the selection with Control+X
+            if(e.getKeyCode() == KeyEvent.VK_X)
+              executeCommand(cutCommand)
           }
         }
       e.consume()
@@ -63,8 +68,10 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
       lastMove = e.getKeyCode()
       if(e.isShiftDown())
         executeCommand(selectCommand)
-      else
+      else {
         executeCommand(moveCommand)
+        e.consume()
+      }
     }
   }
   
@@ -73,13 +80,6 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   }
   
   override def keyTyped(e : KeyEvent) {
-    /*if(!e.isControlDown()) {
-      if(toWrite) {
-        lastChar = e.getKeyChar()
-        executeCommand(writeCommand)
-        toWrite = false
-      }
-    }*/
     e.consume()
   }
   
