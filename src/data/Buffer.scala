@@ -58,7 +58,7 @@ class Buffer(listGUIs : List[GUI]) {
 		  }
 		  selectionBeginning = cursorPosition
 	      selectionEnd = cursorPosition
-	  } else {//TODO faire que ça marche
+	  } else {
 		  move match {//TODO les flèches haut/bas
 		    case KeyEvent.VK_RIGHT => if(cursorPosition < text.size)
 		    							//setCursorPosition(cursorPosition + 1)
@@ -71,7 +71,6 @@ class Buffer(listGUIs : List[GUI]) {
 		  }
 		  selectionBeginning = cursorPosition
 	      selectionEnd = cursorPosition
-	      System.err.println(cursorPosition)
 	  }
 	  refreshCarets()
 	}
@@ -149,15 +148,16 @@ class Buffer(listGUIs : List[GUI]) {
 		    case KeyEvent.VK_LEFT =>
 		      if(cursorPosition > 0) {
 		        cursorPosition = cursorPosition - 1
-		        if(cursorPosition < selectionBeginning) {
-		          selectionBeginning = cursorPosition
-		        }
 		        if(cursorPosition >= selectionBeginning) {
 		          selectionEnd = cursorPosition
+		        }
+		        if(cursorPosition < selectionBeginning) {
+		          selectionBeginning = cursorPosition
 		        }
 		      }
 		    case KeyEvent.VK_UP =>{}
 		    case KeyEvent.VK_DOWN => {}
+		    case _ => {}
 		  }
 	  } else {
 		  move match {//TODO les flèches haut/bas
@@ -173,6 +173,7 @@ class Buffer(listGUIs : List[GUI]) {
 		      }
 		    case KeyEvent.VK_UP =>{}
 		    case KeyEvent.VK_DOWN => {}
+		    case _ => {}
 		  }
 	  }
 	}

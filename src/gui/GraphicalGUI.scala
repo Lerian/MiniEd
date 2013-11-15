@@ -2,6 +2,8 @@ package gui
 
 import javax.swing.JFrame
 import javax.swing.JTextArea
+import javax.swing.JScrollPane
+import java.awt.Dimension
 import data.Buffer
 
 class GraphicalGUI extends GUI {
@@ -17,7 +19,8 @@ class GraphicalGUI extends GUI {
     textArea.setText(getBuffer.getText)
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) // la fenêtre doit se fermer quand on clique sur la croix rouge
     frame.getContentPane().add(textArea) // on ajoute la zone de texte dans la fenêtre
-    frame.setSize(200, 200) // on demande d'attribuer une taille minimale à la fenêtre
+    frame.getContentPane().add(new JScrollPane(textArea)) // on ajoute des scrollbar à la fenêtre si nécessaire
+    frame.setMinimumSize(new Dimension(200, 200)) // on demande d'attribuer une taille minimale à la fenêtre
     frame.setLocationRelativeTo(null) // on centre la fenêtre
     frame.setVisible(true) // on rend la fenêtre visible
     
