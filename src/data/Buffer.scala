@@ -5,7 +5,7 @@ import java.util.ArrayList
 import java.awt.event.KeyEvent
 import gui.GUI
 import gui.MiniEdListener
-
+//TODO passer les MiniEdListener en object ???
 class Buffer(listGUIs : List[GUI]) {
 	private var text : String = ""
 	private var cursorPosition : Int = 0
