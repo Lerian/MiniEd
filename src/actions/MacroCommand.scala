@@ -1,7 +1,28 @@
 package actions
 
-class MacroCommand extends Command {
+import java.util.ArrayList
+import gui.MiniEdListener
+import data.Buffer
 
-  def execute(): Unit = {}
-
+class MacroCommand(theManager : MiniEdListener) extends Command {
+  private val manager = theManager
+  private var children : ArrayList[Command] = new ArrayList()
+  private var writtenChars : ArrayList[Char] = new ArrayList()
+  private var doneMoves : ArrayList[Int] = new ArrayList()
+  
+  override def execute() {
+    for(x <- 0 to children.size()-1) {
+      manager.setLastChar(writtenChars.get(x))
+      manager.setLastMove(doneMoves.get(x))
+      children.get(x).execute()
+    }
+  }
+  
+  def addChild(newChild : Command) {
+    children.add(newChild)
+    writtenChars.add(manager.getLastChar)
+    doneMoves.add(manager.getLastMove)
+  }
+  
+  def isSet = (children.size() != 0)
 }
