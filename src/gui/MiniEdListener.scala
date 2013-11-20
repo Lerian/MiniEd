@@ -12,6 +12,7 @@ import actions.CopyCommand
 import actions.PasteCommand
 import actions.CutCommand
 import actions.MacroCommand
+import actions.ReplayCommand
 
 class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private var buffer : Buffer = theBuffer
@@ -23,6 +24,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private val pasteCommand : PasteCommand = new PasteCommand(buffer)
   private val cutCommand : CutCommand = new CutCommand(buffer)
   private val macroCommand : MacroCommand = new MacroCommand(this)
+  private val replayCommand : ReplayCommand = new ReplayCommand(buffer)
   private var lastChar : Char = ' '
   private var lastMove : Int = 0
   private var macroBuilding : Boolean = false
@@ -94,7 +96,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
             // Start recording a macro if it's not set up
             //	End the recording if it is running
             //	Execute the macro otherwise
-            if(e.getKeyCode() == KeyEvent.VK_M)
+            if(e.getKeyCode() == KeyEvent.VK_M) {
               if(!macroCommand.isSet)
                 macroBuilding = !macroBuilding
               else
@@ -102,6 +104,11 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
                   macroBuilding = !macroBuilding
                 else
                   executeCommand(macroCommand)
+            }
+            // Replay every action performed by the user
+            if(e.getKeyCode() == KeyEvent.VK_P) {
+              executeCommand(replayCommand)
+            }
           }
         }
       e.consume()

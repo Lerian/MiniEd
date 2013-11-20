@@ -5,6 +5,10 @@ import java.util.ArrayList
 import java.awt.event.KeyEvent
 import gui.GUI
 import gui.MiniEdListener
+import java.util.Date
+import java.util.GregorianCalendar
+import java.util.Calendar
+
 //TODO passer les MiniEdListener en object ???
 class Buffer(listGUIs : List[GUI]) {
 	private var text : String = ""
@@ -14,6 +18,7 @@ class Buffer(listGUIs : List[GUI]) {
 	private var clipboard : Clipboard = new Clipboard
 	private var GUIs : List[GUI] = listGUIs
 	private var commandManager : MiniEdListener = new MiniEdListener(this)
+	private var historyManager : StatesHistory = new StatesHistory
 	
 	// Add a GUI
 	def addGui(gui : GUI) {
@@ -102,6 +107,8 @@ class Buffer(listGUIs : List[GUI]) {
 	  }
 	  text = beginning.concat(ending)
 	  refreshGuis()
+	  // Save the new state into history
+	  historyManager.addState(saveState)
 	}
 	
 	// Copy the clipboard's content at the selection's position (at the cursor's if there is no selection)
@@ -121,6 +128,8 @@ class Buffer(listGUIs : List[GUI]) {
 	  selectionBeginning = cursorPosition
 	  selectionEnd = cursorPosition
 	  refreshGuis()
+	  // Save the new state into history
+	  historyManager.addState(saveState)
 	}
 	
 	// If there is a selection, copy it's content to the clipboard, then erase it
@@ -210,5 +219,34 @@ class Buffer(listGUIs : List[GUI]) {
 	  selectionEnd = cursorPosition
 	  
 	  refreshGuis()
+	  // Save the new state into history
+	  historyManager.addState(saveState)
+	}
+	
+	// Save the current state into an object to be added to the history
+	def saveState() = new BufferState(text, cursorPosition, selectionBeginning, selectionEnd)
+	
+	// Restore from a given state
+	def restoreFromState(state : BufferState) {
+	  text = state.getSavedText
+	  cursorPosition = state.getSavedCursorPositon
+	  selectionBeginning = state.getSavedSelectionBeginning
+	  selectionEnd = state.getSavedSelectionEnd
+	  
+	  refreshGuis()
+	}
+	
+	// Replay every action performed
+	def replay() {//TODO permettre à l'utilisateur de passer les étapes manuellement avec les flèches, pour mieux voir
+	  // Reset the buffer to it's empty state
+	  text = ""
+	  cursorPosition = 0
+	  selectionBeginning = 0
+	  selectionEnd = 0
+	  refreshGuis()
+	  // Replay actions
+	  for(x <- 0 to historyManager.getHistorySize-1) {
+	    restoreFromState(historyManager.getState(x))
+	  }
 	}
 }
