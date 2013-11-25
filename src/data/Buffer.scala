@@ -232,7 +232,6 @@ class Buffer(listGUIs : List[GUI]) {
 	  cursorPosition = state.getSavedCursorPositon
 	  selectionBeginning = state.getSavedSelectionBeginning
 	  selectionEnd = state.getSavedSelectionEnd
-	  
 	  refreshGuis()
 	}
 	

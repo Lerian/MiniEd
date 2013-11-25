@@ -2,31 +2,16 @@ package test;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import data.Buffer;
+import gui.GUI;
+import gui.GraphicalGUI;
+import gui.MiniEdListener;
 
 public class BufferTest {
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 	@Test
 	public void testBuffer() {
@@ -37,52 +22,71 @@ public class BufferTest {
 
 	@Test
 	public void testGetText() {
-		fail("Not yet implemented");
+		Buffer buffer = new Buffer(null);
+		assertEquals("",buffer.getText());
 	}
 
 	@Test
 	public void testSetText() {
-		fail("Not yet implemented");
+		Buffer buffer = new Buffer(null);
+		buffer.setText("char string");
+		assertEquals("char string",buffer.getText());
 	}
 
 	@Test
 	public void testGetCursorPosition() {
-		fail("Not yet implemented");
+		Buffer buffer = new Buffer(null);
+		assertEquals(0,buffer.getCursorPosition());
 	}
 
 	@Test
 	public void testSetCursorPosition() {
-		fail("Not yet implemented");
+		Buffer buffer = new Buffer(null);
+		buffer.setCursorPosition(1);
+		assertEquals(1,buffer.getCursorPosition());
 	}
 
 	@Test
 	public void testGetCommandManager() {
-		fail("Not yet implemented");
+		Buffer buffer = new Buffer(null);
+		assertNotNull(buffer.getCommandManager());
+		assertTrue(buffer.getCommandManager() instanceof MiniEdListener);
 	}
 
 	@Test
-	public void testAddGui() {
-		fail("Not yet implemented");
+	public void testMove() { //TODO le test avec sélection
+	    ArrayList<GUI> listGUIs = new ArrayList<GUI>();
+	    GraphicalGUI graphGUI = new GraphicalGUI();
+	    listGUIs.add(graphGUI);
+		Buffer buffer = new Buffer(listGUIs);
+	    graphGUI.init(buffer);
+		// test mouvement à gauche si curseur à 0
+		buffer.move(KeyEvent.VK_LEFT);
+		assertEquals(0,buffer.getCursorPosition());
+		// test mouvement à droite si curseur au bout du texte
+		buffer.move(KeyEvent.VK_RIGHT);
+		assertEquals(0,buffer.getCursorPosition());
+		// test mouvement à gauche si possible
+		buffer.write('a');
+		buffer.move(KeyEvent.VK_LEFT);
+		assertEquals(0,buffer.getCursorPosition());
+		// test mouvement à droite si possible
+		buffer.move(KeyEvent.VK_RIGHT);
+		assertEquals(1,buffer.getCursorPosition());
+		
 	}
 
 	@Test
-	public void testRefreshGuis() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRefreshCarets() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testMove() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testErase() {
-		fail("Not yet implemented");
+	public void testErase() { // TODO le test avec sélection
+		ArrayList<GUI> listGUIs = new ArrayList<GUI>();
+	    GraphicalGUI graphGUI = new GraphicalGUI();
+	    listGUIs.add(graphGUI);
+		Buffer buffer = new Buffer(listGUIs);
+	    graphGUI.init(buffer);
+	    buffer.write('a');
+	    assertEquals(1,buffer.getCursorPosition());
+	    buffer.erase();
+	    assertEquals(0,buffer.getCursorPosition());
 	}
 
 	@Test
