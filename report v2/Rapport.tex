@@ -1,0 +1,182 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% HEADER %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper, 12pt]{report}
+
+
+%%%%% Packages %%%%%
+
+	%%%%% Language %%%%% 
+\usepackage[frenchb]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+	%%%%% Graphic %%%%%
+\usepackage{graphicx}
+
+
+%%%%% Macros %%%%
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+
+%%%%% Doc's informations %%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% DOCUMENT %%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+	%%%%% Page de garde %%%%
+	\begin{titlepage}
+		\begin{center}
+
+			\includegraphics[width=0.45\textwidth]{UN-sciences.png}~\\[2cm]
+
+			\textsc{\LARGE Master 1 \sc{Alma}}\\[1.5cm]
+
+			\textsc{\Large Projet de Génie Logiciel}\\[0.5cm]
+
+			% Titre
+			\HRule \\[0.4cm]
+			{ \huge \bfseries \sc{MiniEd} : Version 2 \\[0.4cm] }
+			\HRule \\[1.5cm]
+
+			% Auteur et Encadrant
+			\emph{\'Etudiants :}\\
+			Coraline \sc{Marie} et Vincent \sc{Raveneau}\\
+			\vspace{0.5cm}
+			\emph{Intervenant :} \\
+			Gerson \textsc{Sunyé}
+		
+			\vfill
+
+			% Bottom of the page
+			{\large 29 novembre 2013}
+
+		\end{center}
+	\end{titlepage}
+
+	%%%%% Sommaire %%%%%
+	\renewcommand{\contentsname}{Sommaire}
+	\tableofcontents
+	\newpage
+	
+	%%%%% Introduction %%%%%
+	\chapter*{Introduction}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}Introduction}
+	
+	Le Génie Logiciel est la discipline qui permet l’aboutissement d’un projet depuis son idée, jusqu’à son utilisation par un client. Cette discipline est donc à l’origine de tout logiciel, et permet sa conception de façon fiable et structurelle.
+
+	\vspace{0.5cm}
+
+	Actuellement en première année de Master Alma à l’Université de Nantes, nous avons pour projet de Génie Logiciel, la conception d’un éditeur de texte simplifié. Cet éditeur dispose de diverses fonctionnalités, exploitées dans trois versions différentes du logiciel.  
+
+	\vspace{0.5cm}
+
+	Ce rapport présente donc la conception de la seconde version de \textsc{MiniEd}, notre éditeur de texte. Il s’agit d’une version simple de l’éditeur comprenant les commandes les plus basiques, ainsi que quelques améliorations tant au niveau des fonctionnalités, que dans la fiabilité du code. 
+	
+	\newpage
+	
+	%%%%% Partie 1 %%%%%
+	\chapter*{Partie 1 : Analyse et conception}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}Partie 1 : Analyse et conception}
+	
+		\section*{Rappels sur les dépendances externes}
+		\addcontentsline{toc}{section}{\protect\numberline{}Rappels sur les dépendances externes}
+
+		Avant même de concevoir un logiciel, il faut au préalable le penser, ainsi que définir ses besoins et ses différentes fonctionnalités. Dans cette optique, notre cahier des charges nous imposait de concevoir l’éditeur de texte dans le langage de programmation Scala, un langage récent qui allie de façon subtile la programmation orientée objet avec la programmation fonctionnelle. 
+
+		\vspace{0.5cm}
+
+		De plus, afin de tester la fiabilité, ainsi que toutes les missions de notre logiciel, nous utiliserons Junit, un framework de test unitaire qui fût créé pour le langage de programmation Java, mais qui est aussi aujourd’hui compatible avec le langage Scala.
+
+		\vspace{0.5cm}
+
+		Dans ce projet, nous avons également fait appel à la bibliothèque Java Swing. Cette dernière est une bibliothèque graphique pour Java, dont nous nous sommes servis pour créer l’interface graphique de MiniEd.
+
+		\section*{Les nouvelles fonctionnalités}
+		\addcontentsline{toc}{section}{\protect\numberline{}Les nouvelles fonctionalités}
+
+		La version 1 de \textsc{MiniEd} comportait les fonctinnalités suivantes :
+
+		\begin{itemize}
+			\item L'implémentation d’un buffer : qui est notre zone de travail dans laquelle est contenu le texte.
+
+			\item La mise en place de la sélection : qui donne la possibilité de sélectionner une partie, voir même la totalité du texte. Ainsi, le texte sélectionné peut ensuite être travaillé à l’aide de d’autres fonctionnalités.
+
+			\item L’implémentation d’un presse-papier : qui contient du texte que l’on a, au préalable, couper ou copier, et qui peut ensuite être collé.
+
+			\item La conception d’une interface homme-machine : celle-ci est de type graphique. Plusieurs interfaces peuvent être générées et elles sont toutes associées au même buffer. 
+
+		\end{itemize}
+
+		\vspace{0.5cm}
+
+		Pour la seconde version de \textsc{MiniEd}, le cahier des charges nous impose un certains nombre de fonctionnalités à développer :
+
+		\begin{itemize}
+			\item La possibilité de regrouper des commandes utilisateurs dans des macros
+
+			\item Une nouvelle méthode de mémorisation qui permet de d'enregistrer les actions de l'utilisateurs et de les rejouer. 
+
+		\end{itemize}
+
+		\section*{Schématisation}
+		\addcontentsline{toc}{section}{\protect\numberline{}Schématisation}
+
+		Dans un soucis de clarté et de compréhensibilité de notre cahier des charges, et de nos nouvelles fonctionnalités, voici un diagramme UML décrivant la structure de notre application. Dans ce diagramme sont schématisé les classes nécessaires au bon fonctionnement de l’éditeur de texte ainsi que leur dépendances.
+		
+	\newpage
+	
+	%%%%% Partie 2 %%%%%
+	\chapter*{Partie 2 : Développement}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}Partie 2 : Développement}
+
+		\section*{Les classes}
+		\addcontentsline{toc}{section}{\protect\numberline{}Les classes}
+
+			D'après le diagramme UML présenté précédemment, nous avons rajouté X classes à notre projet, depuis la version 1.
+
+		\begin{itemize}
+			\item La possibilité de regrouper des commandes utilisateurs dans des macros
+
+			\item Une nouvelle méthode de mémorisation qui permet de d'enregistrer les actions de l'utilisateurs et de les rejouer. 
+
+		\end{itemize}
+
+		\section*{Patron de conception}
+		\addcontentsline{toc}{section}{\protect\numberline{}Patron de conception}
+
+		Le nouveau Pattern que nous utilisons est le Pattern Composite. Ce pattern est un patron de conception structurel qui permet de simplifier l'utilisation de plusieurs objets similaires. Dans notre cas, nous avons utilisé le Pattern Composite pour concevoir une macro permettant la communication entre les commandes. 
+
+		\vspace{0.5cm}
+
+		Pour illustrer cette conception, nous avons créé une macro permettant de mettre en mémoire un extrait de texte. Pour cela, l'utilisateur utilise une première fois \texttt{ctrl + M} pour démarrer la mémorisation, puis il réutilise \texttt{ctrl + M} pour arrêter la méorisation. Ainsi, lorsque l'utilisateur réutilisera \texttt{ctrl + M} pour la troisième fois (ou plus), le texte mémorisé se collera au niveau du curseur de sélection. 
+
+
+		\section*{Fiabilité et test}
+		\addcontentsline{toc}{section}{\protect\numberline{}Fiabilité et test}
+
+		Aujourd'hui, la qualité d'un logiciel se juge sur autant sur sa fiabilité que sur ses compétences, c'est pourquoi nous avons développé plusieurs classes de test améliorant la fiabilité de notre logiciel. \'Etant donné que nos classes se ressemble beaucoup de par leur structure, voici un exemple de classe test que nous avons composé.
+
+		\vspace{0.5cm}
+
+		
+
+	\newpage
+	
+	%%%%% Conclusion %%%%%
+	\chapter*{Conclusion}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}Conclusion}
+	
+		Comme nous l'avions déjà remarqué sur la version 1 de \textsc{MiniEd}, malgré sa simplicité, il reste un projet d'apprentissage. Cette seconde version nous a montrer de nouvelles subtilité du langage Scala, comme par exemple la possibilité d'utilisé JUnit. Cette seconde version de l'éditeur nous a permis d'utilisé de nouvelles connaissances vues dans d'autres modules denseignement comme les Concepts et Outils de Développement, ou Vérifications et Tests.
+
+		\vspace{0.5cm}
+
+	Ce rapport présente une seconde ébauche fonctionnelle du logiciel \textsc{MiniEd}. Cependant malgré les fonctionnalités que nous lui avons ajouté il reste incomplet, et mérite d'être encore amélioré. Ainsi, pour la dernière version de l'éditeur, nous lui rajouterons certaines fonctionnalités comme par exemple la possibilité de mémoriser toutes les actions de l'utilisateur, pour que celui-ci puisse revenir sur toutes ses actions, jusqu'à la première.
+
+\end{document}
+
