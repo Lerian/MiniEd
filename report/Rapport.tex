@@ -100,14 +100,14 @@
 		\section*{Les nouvelles fonctionnalités}
 		\addcontentsline{toc}{section}{\protect\numberline{}Les nouvelles fonctionalités}
 
-		La version 1 de \textsc{MiniEd} comportait les fonctinnalités suivantes :
+		La version 1 de \textsc{MiniEd} comportait les fonctionnalités suivantes :
 
 		\begin{itemize}
-			\item L'implémentation d’un buffer : qui est notre zone de travail dans laquelle est contenu le texte.
+			\item L'implémentation d’un buffer, qui est notre zone de travail dans laquelle est contenu le texte. Le buffer permet d'effectuer toutes les actions basiques d'un éditeur de texte (écrire, effacer, copier, couper, coller, déplacer le curseur).
 
 			\item La mise en place de la sélection : qui donne la possibilité de sélectionner une partie, voir même la totalité du texte. Ainsi, le texte sélectionné peut ensuite être travaillé à l’aide de d’autres fonctionnalités.
 
-			\item L’implémentation d’un presse-papier : qui contient du texte que l’on a, au préalable, couper ou copier, et qui peut ensuite être collé.
+			\item L’implémentation d’un presse-papier : qui contient du texte que l’on a, au préalable, coupé ou copié, et qui peut ensuite être collé.
 
 			\item La conception d’une interface homme-machine : celle-ci est de type graphique. Plusieurs interfaces peuvent être générées et elles sont toutes associées au même buffer. 
 
@@ -115,19 +115,12 @@
 
 		\vspace{0.5cm}
 
-		Pour la seconde version de \textsc{MiniEd}, le cahier des charges nous impose un certains nombre de fonctionnalités à développer :
-
-		\begin{itemize}
-			\item La possibilité de regrouper des commandes utilisateurs dans des macros
-
-			\item Une nouvelle méthode de mémorisation qui permet de d'enregistrer les actions de l'utilisateurs et de les rejouer. 
-
-		\end{itemize}
+		Pour la seconde version de \textsc{MiniEd}, le cahier des charges nous impose une nouvelle fonctionnalité à développer, l'enregistrement de toutes les actions de l'utilisateur, de façon à pouvoir les rejouer à volonté. De plus, il était également nécessaire d'implémenter une fonction de la première version qui n'avait pas pu être prête à temps, la possibilité pour l'utilisateur de créer des macros.
 
 		\section*{Schématisation}
 		\addcontentsline{toc}{section}{\protect\numberline{}Schématisation}
 
-		Dans un soucis de clarté et de compréhensibilité de notre cahier des charges, et de nos nouvelles fonctionnalités, voici un diagramme UML décrivant la structure de notre application. Dans ce diagramme sont schématisé les classes nécessaires au bon fonctionnement de l’éditeur de texte ainsi que leur dépendances.
+		Dans un soucis de clarté et de compréhensibilité de notre cahier des charges, et de nos nouvelles fonctionnalités, voici un diagramme UML décrivant la structure de notre application. Dans ce diagramme sont schématisées les classes nécessaires au bon fonctionnement de l’éditeur de texte ainsi que leurs dépendances.
 		
 	\newpage
 	
