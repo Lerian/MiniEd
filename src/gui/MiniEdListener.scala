@@ -14,6 +14,7 @@ import actions.CutCommand
 import actions.MacroCommand
 import actions.ReplayCommand
 import actions.UndoCommand
+import actions.RedoCommand
 
 class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private var buffer : Buffer = theBuffer
@@ -27,6 +28,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private val macroCommand : MacroCommand = new MacroCommand(this)
   private val replayCommand : ReplayCommand = new ReplayCommand(buffer)
   private val undoCommand : UndoCommand = new UndoCommand(buffer)
+  private val redoCommand : RedoCommand = new RedoCommand(buffer)
   private var lastChar : Char = ' '
   private var lastMove : Int = 0
   private var macroBuilding : Boolean = false
@@ -115,6 +117,10 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
             // Undo the last action performed with Control+Z
             if(e.getKeyCode() == KeyEvent.VK_Z) {
               executeCommand(undoCommand)
+            }
+            // Redo the last action erased by an Undo with Control+Y
+            if(e.getKeyCode() == KeyEvent.VK_Y) {
+              executeCommand(redoCommand)
             }
           }
         }

@@ -255,4 +255,8 @@ class Buffer(listGUIs : List[GUI]) {
 	def undo() {
 	  restoreFromState(historyManager.getLastState())
 	}
+	
+	def redo() {
+	  restoreFromState(historyManager.getNextState())
+	}
 }
