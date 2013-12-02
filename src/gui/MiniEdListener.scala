@@ -13,6 +13,7 @@ import actions.PasteCommand
 import actions.CutCommand
 import actions.MacroCommand
 import actions.ReplayCommand
+import actions.UndoCommand
 
 class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private var buffer : Buffer = theBuffer
@@ -25,6 +26,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   private val cutCommand : CutCommand = new CutCommand(buffer)
   private val macroCommand : MacroCommand = new MacroCommand(this)
   private val replayCommand : ReplayCommand = new ReplayCommand(buffer)
+  private val undoCommand : UndoCommand = new UndoCommand(buffer)
   private var lastChar : Char = ' '
   private var lastMove : Int = 0
   private var macroBuilding : Boolean = false
@@ -96,6 +98,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
             // Start recording a macro if it's not set up
             //	End the recording if it is running
             //	Execute the macro otherwise
+            //	with Control+M
             if(e.getKeyCode() == KeyEvent.VK_M) {
               if(!macroCommand.isSet)
                 macroBuilding = !macroBuilding
@@ -105,9 +108,13 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
                 else
                   executeCommand(macroCommand)
             }
-            // Replay every action performed by the user
+            // Replay every action performed by the user with Control+P
             if(e.getKeyCode() == KeyEvent.VK_P) {
               executeCommand(replayCommand)
+            }
+            // Undo the last action performed with Control+Z
+            if(e.getKeyCode() == KeyEvent.VK_Z) {
+              executeCommand(undoCommand)
             }
           }
         }

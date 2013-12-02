@@ -5,9 +5,6 @@ import java.util.ArrayList
 import java.awt.event.KeyEvent
 import gui.GUI
 import gui.MiniEdListener
-import java.util.Date
-import java.util.GregorianCalendar
-import java.util.Calendar
 
 //TODO passer les MiniEdListener en object ???
 class Buffer(listGUIs : List[GUI]) {
@@ -19,6 +16,9 @@ class Buffer(listGUIs : List[GUI]) {
 	private var GUIs : List[GUI] = listGUIs
 	private var commandManager : MiniEdListener = new MiniEdListener(this)
 	private var historyManager : StatesHistory = new StatesHistory
+	
+	// Save the initial state into history
+	historyManager.addState(saveState)
 	
 	// Add a GUI
 	def addGui(gui : GUI) {
@@ -228,11 +228,13 @@ class Buffer(listGUIs : List[GUI]) {
 	
 	// Restore from a given state
 	def restoreFromState(state : BufferState) {
-	  text = state.getSavedText
-	  cursorPosition = state.getSavedCursorPositon
-	  selectionBeginning = state.getSavedSelectionBeginning
-	  selectionEnd = state.getSavedSelectionEnd
-	  refreshGuis()
+	  if (state != null) {
+		  text = state.getSavedText
+		  cursorPosition = state.getSavedCursorPositon
+		  selectionBeginning = state.getSavedSelectionBeginning
+		  selectionEnd = state.getSavedSelectionEnd
+		  refreshGuis()
+	  }
 	}
 	
 	// Replay every action performed
@@ -244,8 +246,13 @@ class Buffer(listGUIs : List[GUI]) {
 	  selectionEnd = 0
 	  refreshGuis()
 	  // Replay actions
-	  for(x <- 0 to historyManager.getHistorySize-1) {
+	  for(x <- 0 to historyManager.getCurrentHistorySize-1) {
 	    restoreFromState(historyManager.getState(x))
 	  }
+	}
+	
+	// Go back to the buffer's state before the last action performed
+	def undo() {
+	  restoreFromState(historyManager.getLastState())
 	}
 }
