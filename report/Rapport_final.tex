@@ -92,7 +92,7 @@
 
 	\vspace{0.5cm}
 
-	Ce rapport présente donc la conception de \textsc{MiniEd}, au travers de ses trois versions fonctionnelles. Ces différentes versions disposent chacunes de fonctionnalités et de commandes basiques, qui ont eu comme objectifs pédagogiques de nous sensibiliser sur le rôle du Génie Logiciel dans l'Informatique.
+	Ce rapport présente donc la conception de \textsc{MiniEd}, au travers de ses trois versions fonctionnelles. Ces différentes versions disposent chacune de fonctionnalités et de commandes basiques, qui ont eu comme objectifs pédagogiques de nous sensibiliser sur le rôle du Génie Logiciel dans l'Informatique.
 
 	\vspace{2.5cm}
 
@@ -107,7 +107,7 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	\begin{center}
-		\section{Analyse et conception}
+		\section{Conception}
 	\end{center}
 
 	\vspace{0.5cm}
@@ -121,7 +121,7 @@
 
 		\vspace{0.5cm}
 
-		Dans un soucis de fiabilité, de qualité et de performances, le code de l'éditeur de texte a été testé à l'aide de Junit. Ce dernier est un framework de test unitaire qui fût créé pour le langage de programmation Java, et qui est aujourd’hui compatible avec le langage de programmation Scala.
+		Dans un soucis de fiabilité, de qualité et de performances, le code de l'éditeur de texte a été testé à l'aide de JUnit. Ce dernier est un framework de test unitaire qui fût créé pour le langage de programmation Java, et qui est aujourd’hui compatible avec le langage de programmation Scala.
 
 		\vspace{0.5cm}
 
@@ -134,23 +134,23 @@
 
 		\vspace{0.5cm}
 
-		Le cahier des charges de \textsc{MiniEd} réclamait plusieurs fonctionnalités, qui ont été développées sur plusieurs versions fonctionnelles de l'éditeur. La programmation c'est donc déroulée en trois étapes : trois versions de \textsc{MiniEd}.
+		Le cahier des charges de \textsc{MiniEd} réclamait plusieurs fonctionnalités, qui ont été développées sur plusieurs versions fonctionnelles de l'éditeur. La programmation s'est donc déroulée en trois étapes : trois versions de \textsc{MiniEd}.
 
 		\vspace{0.5cm}
 
 			%%%%% Partie 1.2.1 %%%%%
-			\subsubsection{Version 1 : les actions de base}
+			\subsubsection{Version 1 : Les actions de base}
 
 			Les actions de base de \textsc{MiniEd}, sont celles qui ont été mises en place pour la première version du logiciel. Comme on peut s'y attendre, celles-ci sont fondamentales et sont :
 
 			\begin{itemize}
 				\item La saisie de texte.
 
-				\item Les actions couper, copier, coller et effacer.
+				\item Les actions Couper, Copier, Coller et Effacer.
 
-				\item L'implémentation d’un buffer qui est notre zone de travail, et dans laquelle est contenu le texte.
+				\item L'implémentation d’un buffer qui est notre zone de travail, et dans lequel est contenu le texte.
 
-				\item La mise en place de la sélection qui donne la possibilité de sélectionner une partie, voir même la totalité du texte. Ainsi, le texte sélectionné peut être retravaillé à l’aide de d’autres fonctionnalités.
+				\item La mise en place de la sélection qui donne la possibilité de sélectionner une partie, voire même la totalité du texte. Ainsi, le texte sélectionné peut être retravaillé à l’aide d’autres fonctionnalités.
 
 				\item L’implémentation d’un presse-papier qui contient du texte que l’on a au préalable, couper ou copier, et qui peut ensuite être collé.
 
@@ -160,12 +160,12 @@
 			\end{itemize}
 
 			%%%%% Partie 1.2.2 %%%%%
-			\subsubsection{Version 2 : l'enregistrement des actions de l'utilisateur}
+			\subsubsection{Version 2 : L'enregistrement des actions de l'utilisateur}
 
 			Pour la seconde version de \textsc{MiniEd}, le cahier des charges nous demandait de développer une nouvelle fonctionnalité. Il s'agissait de permettre l'enregistrement de toutes les actions de l'utilisateur, de façon à pouvoir les rejouer à volonté.
 
 			%%%%% Partie 1.2.3 %%%%%
-			\subsubsection{Version 3 : le défaire / refaire}
+			\subsubsection{Version 3 : Le défaire / refaire}
 
 			Enfin, la dernière fonctionnalité qui a été mise en place est le défaire / refaire. Il s'agit de l'équivalent des commandes "annuler" et "rétablir" que l'on trouve sur d'autres éditeurs de texte. Grâce à cette fonctionnalité, l'utilisateur peut désormais annuler pas à pas, toutes les actions qu'il a fait depuis le lancement de \textsc{MiniEd} (défaire), et s'il le souhaîte, il peut ensuite rétablir ce qu'il vient de défaire (refaire).
 
@@ -263,12 +263,7 @@
 			%%%%% Partie 2.1.6 %%%%%
 			\subsubsection{Défaire / Refaire}
 
-			Les fonctionnalités de défaire / refaire sont accessible grâce à deux classes : \texttt{UndoCommand} et \texttt{RedoCommand}.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	PARTIE A COMPLETER
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			Les fonctionnalités de défaire / refaire sont accessible grâce à deux classes : \texttt{UndoCommand} et \texttt{RedoCommand}. Elles permettent à l'utilisateur de revenir en arrière, c'est à dire d'annuler chaque étape de saisie jusqu'au début, ou de rétablir ce que l'utilisateur vient de défaire.
 
 		\vspace{0.5cm}
 
@@ -281,7 +276,7 @@
 
 		\vspace{0.5cm}
 
-		Le premier Pattern que nous utilisons est le Pattern Commande. Celui-ci est un patron de conception de type comportemental qui encapsule la notion d'Invocation. Il permet de séparer le code de l'appel des commandes, avec le code des commandes elles mêmes.
+		Le premier Pattern que nous utilisons est le Pattern Commande. Celui-ci est un patron de conception de type comportemental qui encapsule la notion d'Invocation. Il permet de séparer le code de l'appel des commandes, avec le code des commandes elles-mêmes.
 
 		\vspace{0.5cm}
 
@@ -289,7 +284,7 @@
 
 		\vspace{0.5cm}
 
-		Le troisième Pattern que nous utilisons est le pattern Memento. Il permet de conserver l’état d’un objet pour le restaurer ultérieurement. Ce Pattern a été utilisé afin de réaliser l’enregistrement des actions effectuées par l’utilisateur. En effet, à chaque action l’état du buffer est enregistré en mémoire, il établit un historique.
+		Le troisième Pattern que nous utilisons est le pattern Memento. Il permet de conserver l’état d’un objet pour le restaurer ultérieurement. Ce Pattern a été utilisé afin de réaliser l’enregistrement des actions effectuées par l’utilisateur. En effet, à chaque action l’état du buffer est enregistré en mémoire, afin d'établir un historique.
 
 		\vspace{0.5cm}
 
@@ -320,6 +315,6 @@
 
 	\vspace{0.5cm}
 
-	\textsc{MiniEd} nous a permis d’utilisé de nouvelles connaissances étudiées en Génie Logiciel, mais pas seulement. Nous nous sommes servi pour ce projet d'autres notions vues dans d’autres modules d'enseignement, comme les Concepts et Outils de Développement, ou Vérifications et Tests.
+	\textsc{MiniEd} nous a permis d’utiliser de nouvelles connaissances étudiées en Génie Logiciel, mais pas seulement. Nous nous sommes servis pour ce projet d'autres notions vues dans d’autres modules d'enseignement, comme \textit{Concepts et Outils de Développement}, ou \textit{Vérifications et Tests}.
 
 \end{document}
