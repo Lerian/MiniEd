@@ -61,7 +61,7 @@ class MiniEdListener (theBuffer : Buffer) extends KeyListener {
   override def keyPressed(e : KeyEvent) {
     // Close the application with Escape
     if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
-      System.exit(0) //TODO remplacer par un appel à une commande de close
+      System.exit(0)
     // Process non directional keys
     if(!isDirectionalKey(e)) {
       // Erase content with Backspace

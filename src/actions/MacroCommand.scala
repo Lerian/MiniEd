@@ -11,7 +11,8 @@ class MacroCommand(theManager : MiniEdListener) extends Command {
   private var doneMoves : ArrayList[Int] = new ArrayList()
   
   override def execute() {
-    for(x <- 0 to children.size()-1) {
+    var index : Int = 0
+    for(x <- index to children.size()-1) {
       manager.setLastChar(writtenChars.get(x))
       manager.setLastMove(doneMoves.get(x))
       children.get(x).execute()

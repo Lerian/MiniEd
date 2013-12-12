@@ -88,7 +88,7 @@ class Buffer(listGUIs : List[GUI]) {
 	  if (selectionBeginning != selectionEnd) {
 	    if (selectionBeginning != 0)
 	    	beginning = text.substring(0, selectionBeginning)
-	    if (selectionEnd != text.size)
+	    if (selectionEnd != this.text.size)
 	    	ending = text.substring(selectionEnd, text.length())
 	    // Update the cursor's position and the selection
 	    cursorPosition = selectionBeginning
@@ -97,7 +97,7 @@ class Buffer(listGUIs : List[GUI]) {
 	  } else {
 	    if (cursorPosition != 0)
 	    	beginning = text.substring(0, cursorPosition-1)
-	    if (cursorPosition != text.size)
+	    if (cursorPosition != this.text.size)
 			ending = text.substring(cursorPosition, text.length())
 	    // Update the cursor's position and the selection
 	    if(cursorPosition-1 >= 0)
@@ -145,7 +145,7 @@ class Buffer(listGUIs : List[GUI]) {
 	  if (selectionBeginning != selectionEnd) {
 		  move match {//TODO les flèches haut/bas
 		    case KeyEvent.VK_RIGHT =>
-		      if(cursorPosition < text.size) {
+		      if(cursorPosition < this.text.size) {
 		        cursorPosition = cursorPosition + 1
 		        if(cursorPosition <= selectionEnd) {
 		          selectionBeginning = cursorPosition
@@ -171,7 +171,7 @@ class Buffer(listGUIs : List[GUI]) {
 	  } else {
 		  move match {//TODO les flèches haut/bas
 		    case KeyEvent.VK_RIGHT =>
-		      if(cursorPosition < text.size) {
+		      if(cursorPosition < this.text.size) {
 		        cursorPosition = cursorPosition + 1
 		        selectionEnd = cursorPosition
 		      }
@@ -203,12 +203,12 @@ class Buffer(listGUIs : List[GUI]) {
 	  if (selectionBeginning != selectionEnd) {
 	    if (selectionBeginning != 0)
 	    	beginning = text.substring(0, selectionBeginning)
-	    if (selectionEnd != text.size)
+	    if (selectionEnd != this.text.size)
 	    	ending = text.substring(selectionEnd, text.length())
 	  } else {
 	    if (cursorPosition != 0)
 	    	beginning = text.substring(0, cursorPosition)
-	    if (cursorPosition != text.size)
+	    if (cursorPosition != this.text.size)
 			ending = text.substring(cursorPosition, text.length())
 	  }
 	  text = beginning.concat(char.toString).concat(ending)

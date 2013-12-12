@@ -54,7 +54,7 @@ public class BufferTest {
 	}
 
 	@Test
-	public void testMove() { //TODO le test avec sélection
+	public void testMove() {
 	    ArrayList<GUI> listGUIs = new ArrayList<GUI>();
 	    GraphicalGUI graphGUI = new GraphicalGUI();
 	    listGUIs.add(graphGUI);
@@ -77,7 +77,7 @@ public class BufferTest {
 	}
 
 	@Test
-	public void testErase() { // TODO le test avec sélection
+	public void testErase() {
 		ArrayList<GUI> listGUIs = new ArrayList<GUI>();
 	    GraphicalGUI graphGUI = new GraphicalGUI();
 	    listGUIs.add(graphGUI);
